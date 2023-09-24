@@ -1,0 +1,68 @@
+function createCompleteForm() {
+  // 新しいGoogleフォームを作成
+  var form = FormApp.create('店舗評価フォーム');
+  
+  // 店舗選択のラジオボタンを追加
+  var shopItem = form.addMultipleChoiceItem();
+  shopItem.setTitle('店舗選択')
+          .setChoiceValues(['牛川店', '杉山店']);
+  
+  // 評価項目のリスト（1〜15はラジオボタンとコメント、16〜19はコメントのみ）
+  var radioQuestions = [
+    '1．従業員の接客は好感がもてるか（あいさつ、おじぎ、笑顔、マナーなど）',
+    '2．従業員のみなり（名札、服装、髪の毛、爪の清潔感）',
+    '3．店内は清潔で居心地よいか（棚、トイレ、テーブル・椅子など）',
+    '4．従業員からの適切な声かけ、コミュニケーションはあったか？',
+    '5．商品やサービスは期待どおりか（味、種類、デザイン）',
+    '6．陳列やディスプレイはわかりやすいか（わかりやすさ、見やすさ）',
+    '7．価格は適切か',
+    '8．店内のオペレーションはよかったか（商品・サービスの提供時間、案内、動線、精算など）',
+    '9．レジ周りやバックヤードの印象（整理整頓されているかなど）',
+    '10．音楽や照明は適切か（音量、明るさ、雰囲気）',
+    '11．メニューはわかりやすいか（文字の大きさ、説明、写真の有無）',
+    '12．アレルギー対応や特別な要望に応じられるか（メニューのカスタマイズ、成分表示など）',
+    '13．待ち時間は許容範囲内か（席への案内、注文から提供までの時間）',
+    '14．今後も当店を利用したいか',
+    '15．当店を知人や家族にすすめたいか'
+  ];
+
+  var commentQuestions = [
+    '16．当店の良いところ',
+    '17．当店の改善すべきところ',
+    '18．当店への要望',
+    '19．当店への総評および助言（応援メッセージ）'
+  ];
+  
+  // ラジオボタンとコメント用の質問を追加
+  for (var i = 0; i < radioQuestions.length; i++) {
+    var questionTitle = radioQuestions[i];
+    
+    // ラジオボタン用の質問を追加
+    var mcItem = form.addMultipleChoiceItem();
+    mcItem.setTitle(questionTitle)
+         .setChoiceValues(['そう思う', 'だいたいそう思う', 'あまりそう思わない', '思わない']);
+    
+    // コメント用のテキストボックスを追加
+    var textItem = form.addParagraphTextItem();
+    textItem.setTitle(questionTitle + ' - コメント');
+  }
+
+  // コメントのみの質問を追加
+  for (var i = 0; i < commentQuestions.length; i++) {
+    var questionTitle = commentQuestions[i];
+    var textItem = form.addParagraphTextItem();
+    textItem.setTitle(questionTitle);
+  }
+  
+  // 送信者の情報（年代）
+  var ageItem = form.addMultipleChoiceItem();
+  ageItem.setTitle('記入者の年代')
+        .setChoiceValues(['20代', '30代', '40代', '50代', '60代以上']);
+  
+  // 送信者の情報（性別）
+  var genderItem = form.addMultipleChoiceItem();
+  genderItem.setTitle('性別')
+            .setChoiceValues(['男', '女']);
+  
+  Logger.log('フォームが作成されました: ' + form.getPublishedUrl());
+}
